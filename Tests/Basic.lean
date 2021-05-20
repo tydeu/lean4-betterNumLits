@@ -1,6 +1,6 @@
 import BetterNumLits
 
--- Numerals
+-- Digits
 #check 0
 #check 1
 #check 2
@@ -12,11 +12,11 @@ import BetterNumLits
 #check 8
 #check 9
 
--- Bits
+-- Binary
 #check 0b0
 #check 0B1
 
--- Octits
+-- Octal
 #check 0o0
 #check 0o1
 #check 0o2
@@ -26,7 +26,7 @@ import BetterNumLits
 #check 0o6
 #check 0o7
 
--- Digits
+-- Decimal
 #check 00
 #check 01
 #check 02
@@ -38,7 +38,7 @@ import BetterNumLits
 #check 08
 #check 09
 
--- Hexits
+-- Hexadecimal
 #check 0x0
 #check 0x1
 #check 0x2
@@ -80,12 +80,14 @@ import BetterNumLits
 #reduce 0xAf04 -- 44804
 #reduce 0o2041 -- 1057
 
--- Unexpanders
+-- Heterogenous Unexpanders
 #check ofRadix #[0, 0xF, 1]
 #check ofRadix #[0b1, 0, 1]
 #check ofRadix #[0xA, 0, 1]
 #check ofRadix #[0o4, 0, 1]
+
+-- Homogenous Unexpanders
 #check ofRadix #[0b1, 0b0, 0b1]
 #check ofRadix #[0xA, 0x2, 0xF]
 #check ofRadix #[0o1, 0o4, 0o7]
-#check ofRadix (#[0, 1, 2] : Array Digit)
+#check ofRadix (radix := Nat.ten) #[0, 1, 2]
