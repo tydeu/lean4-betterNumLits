@@ -376,11 +376,15 @@ open Lean Syntax PrettyPrinter
 @[appUnexpander Hexit.fourteen] def unexpandHexitFourteen := unexpandToNum "0xE"
 @[appUnexpander Hexit.fifteen]  def unexpandHexitFifteen  := unexpandToNum "0xF"
 
-/-
-  A brittle unexpander that largely assumes that 
-  if `ofRadix` is used with an array of numLits, 
-  they were generated from expanding a `numLit`
--/
+private def decodeDigitLit 
+  (radixChar : Char) (dstx : Syntax) 
+: Option Char := OptionM.run do
+  let dstr <- dstx.isLit? numLitKind
+  if dstr.length == 3 && dstr[0] == '0' && dstr[1] == radixChar then
+    dstr[2]
+  else
+    none
+
 @[appUnexpander OfRadix.ofRadix]
 def unexpandOfRadix : Unexpander
 | `($_f:ident #[$[$ds:numLit],*]) => 
@@ -388,18 +392,19 @@ def unexpandOfRadix : Unexpander
     let d <- isLit? numLitKind ds[0]
     let len := d.length
     if len == 1 then
-      let num <- ds.mapM fun d => do (<- d.isLit? numLitKind)[0]
+      let num <- ds.mapM fun d => 
+        d.isLit? numLitKind >>= fun s => ite (s.length == 1) s[0] none
       mkNumLit (String.mk num.toList)
     else if len == 3 && d[0] == '0' then
       let d1 := d[1]
       if d1 == 'x' then
-        let num <- ds.mapM fun d => do (<- d.isLit? numLitKind)[2]
+        let num <- ds.mapM (decodeDigitLit 'x')
         mkNumLit ("0x" ++ String.mk num.toList)
       else if d1 == 'b' then
-        let num <- ds.mapM fun d => do (<- d.isLit? numLitKind)[2]
+        let num <- ds.mapM (decodeDigitLit 'b')
         mkNumLit ("0b" ++ String.mk num.toList)
       else if d1 == 'o' then
-        let num <- ds.mapM fun d => do (<- d.isLit? numLitKind)[2]
+        let num <- ds.mapM (decodeDigitLit 'o')
         mkNumLit ("0o" ++ String.mk num.toList)
       else
         none
@@ -481,12 +486,25 @@ end
 #check 1239
 #check 067845
 #check 0b1011
+#check 0B1011
 #check 0xAf04
+#check 0XAf04
 #check 0o2041
+#check 0O2041
 
 -- Reductions
 #reduce 1239
 #reduce 067845
-#reduce 0B1011 -- 11
-#reduce 0XAf04 -- 44804
-#reduce 0O2041 -- 1057
+#reduce 0b1011 -- 11
+#reduce 0xAf04 -- 44804
+#reduce 0o2041 -- 1057
+
+-- Unexpanders
+#check ofRadix #[0, 0xF, 1]
+#check ofRadix #[0b1, 0, 1]
+#check ofRadix #[0xA, 0, 1]
+#check ofRadix #[0o4, 0, 1]
+#check ofRadix #[0b1, 0b0, 0b1]
+#check ofRadix #[0xA, 0x2, 0xF]
+#check ofRadix #[0o1, 0o4, 0o7]
+#check ofRadix (#[0, 1, 2] : Array Digit)
