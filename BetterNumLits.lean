@@ -299,14 +299,11 @@ def expandRadixLit (stx : Syntax) (str : String) : MacroM Syntax :=
           else
             digitsToStx (mkCIdent ``Nat.eight) octToStx str 2
         else if c.isDigit then 
-          if len == 2 then 
-            decToStx (str.get 1)
-          else
-            digitsToStx (mkCIdent ``Nat.ten) decToStx str 0
+          digitsToStx (mkCIdent ``Nat.ten) digitToStx str 0
         else 
           Macro.throwErrorAt stx "invalid num lit prefix"
       else if c.isDigit then 
-        digitsToStx (mkCIdent ``Nat.ten) decToStx str 0
+        digitsToStx (mkCIdent ``Nat.ten) digitToStx str 0
       else 
         Macro.throwErrorAt stx "invalid num lit"
 
@@ -389,7 +386,11 @@ def unexpandOfRadix : Unexpander
 | `($_f:ident #[$[$ds:numLit],*]) => 
   let res := OptionM.run do
     let d <- isLit? numLitKind ds[0]
-    if d[0] == '0' then
+    let len := d.length
+    if len == 1 then
+      let num <- ds.mapM fun d => do (<- d.isLit? numLitKind)[0]
+      mkNumLit (String.mk num.toList)
+    else if len == 3 && d[0] == '0' then
       let d1 := d[1]
       if d1 == 'x' then
         let num <- ds.mapM fun d => do (<- d.isLit? numLitKind)[2]
@@ -400,9 +401,6 @@ def unexpandOfRadix : Unexpander
       else if d1 == 'o' then
         let num <- ds.mapM fun d => do (<- d.isLit? numLitKind)[2]
         mkNumLit ("0o" ++ String.mk num.toList)
-      else if d1.isDigit then
-        let num <- ds.mapM fun d => do (<- d.isLit? numLitKind)[1]
-        mkNumLit (String.mk num.toList)
       else
         none
     else
@@ -487,7 +485,7 @@ end
 #check 0o2041
 
 -- Reductions
-#reduce 01239
+#reduce 1239
 #reduce 067845
 #reduce 0B1011 -- 11
 #reduce 0XAf04 -- 44804
