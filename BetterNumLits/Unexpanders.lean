@@ -47,7 +47,7 @@ open Lean Syntax PrettyPrinter
 @[appUnexpander HexE.hexE] def unexpandHexE := unexpandToNum "0xE"
 @[appUnexpander HexF.hexF] def unexpandHexF := unexpandToNum "0xF"
 
-private def decodeDigitLit 
+def decodeDigitLit 
   (radixChar : Char) (dstx : Syntax) 
 : Option Char := OptionM.run do
   let dstr <- dstx.isLit? numLitKind
