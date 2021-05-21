@@ -16,16 +16,16 @@
 (14) : Nat
 (15) : Nat
 (16) : Nat
-0 : Nat
-1 : Nat
-2 : Nat
-3 : Nat
-4 : Nat
-5 : Nat
-6 : Nat
-7 : Nat
-8 : Nat
-9 : Nat
+(0) : Nat
+(1) : Nat
+(2) : Nat
+(3) : Nat
+(4) : Nat
+(5) : Nat
+(6) : Nat
+(7) : Nat
+(8) : Nat
+(9) : Nat
 0b0 : Fin2
 0b1 : Fin2
 0o0 : Fin8
@@ -82,10 +82,10 @@
 11
 44804
 1057
-ofRadix (16) #[0, 0xF, 1] : Nat
-ofRadix (2) #[0b1, 0, 1] : Nat
-ofRadix (16) #[0xA, 0, 1] : Nat
-ofRadix (8) #[0o4, 0, 1] : Nat
+ofRadix (16) #[(0), 0xF, (1)] : Nat
+ofRadix (2) #[0b1, (0), (1)] : Nat
+ofRadix (16) #[0xA, (0), (1)] : Nat
+ofRadix (8) #[0o4, (0), (1)] : Nat
 0b101 : Nat
 0xA2F : Nat
 0o147 : Nat

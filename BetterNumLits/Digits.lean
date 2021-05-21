@@ -1,35 +1,5 @@
 universe u
 
---------------------------------------------------------------------------------
--- Generic Digit Classes
---------------------------------------------------------------------------------
-
-class Zero  (A : Type u) := zero  : A
-class One   (A : Type u) := one   : A
-class Two   (A : Type u) := two   : A
-class Three (A : Type u) := three : A
-class Four  (A : Type u) := four  : A
-class Five  (A : Type u) := five  : A
-class Six   (A : Type u) := six   : A
-class Seven (A : Type u) := seven : A
-class Eight (A : Type u) := eight : A
-class Nine  (A : Type u) := nine  : A
-
-export Zero  (zero)
-export One   (one)
-export Two   (two)
-export Three (three)
-export Four  (four)
-export Five  (five)
-export Six   (six)
-export Seven (seven)
-export Eight (eight)
-export Nine  (nine)
-
---------------------------------------------------------------------------------
--- Radix-Specific Digit Classes
---------------------------------------------------------------------------------
-
 class Bin0 (A : Type u) := bin0 : A
 class Bin1 (A : Type u) := bin1 : A
 

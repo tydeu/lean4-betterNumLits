@@ -9,33 +9,34 @@ This package provides an alternative macro expansion of Lean 4's numerical liter
 - No need for `nat_lit` (sort of)
 - Entirely syntactic
 
-## Numerals (WIP)
+## Numerals
 
-The `BetterNumLits` package defines shorthand notation for common numerals:
+The `BetterNumLits` package notation for common numerals separate from `numLit`.
+Each numeral is expanded to a different type class function.
 
 ```
-(0)  => Nat.zero
-(1)  => Nat.one
-(2)  => Nat.two
-(3)  => Nat.three
-(4)  => Nat.four
-(5)  => Nat.five
-(6)  => Nat.six
-(7)  => Nat.seven
-(8)  => Nat.eight
-(9)  => Nat.nine
-(10) => Nat.ten
-(11) => Nat.eleven
-(12) => Nat.twelve
-(13) => Nat.thirteen
-(14) => Nat.fourteen
-(15) => Nat.fifteen
-(16) => Nat.sixteen
+(0)  => Zero.zero
+(1)  => One.one
+(2)  => Two.two
+(3)  => Three.three
+(4)  => Four.four
+(5)  => Five.five
+(6)  => Six.six
+(7)  => Seven.seven
+(8)  => Eight.eight
+(9)  => Nine.nine
+(10) => Ten.ten
+(11) => Eleven.eleven
+(12) => Twelve.twelve
+(13) => Thirteen.thirteen
+(14) => Fourteen.fourteen
+(15) => Fifteen.fifteen
+(16) => Sixteen.sixteen
 ```
 
 ## Digit Expansion
 
-Each unique single digit literal is expanded to a different type class function. The mapping is as follows:
+Each unique single digit literal is also expanded to a different type class function.
 
 ```
 0 => Zero.zero
@@ -107,7 +108,7 @@ Some examples of how literals expand to `ofRadix` are provided below:
 
 This makes it easier for the notation to support custom types that may be better expressed in positional form than `Nat`'s successor form.
 
-Due to the way Lean instance selection works, it is important to define radix-specific instances for `OfRadix` by using the `Nat` function (or its shorthand notation) for the radix rather than a literal. For example, a hexadecimal `OfRadix` instance for some type `Foo` would look similar to the following:
+Due to the way Lean instance selection works, it is important to define radix-specific instances for `OfRadix` by using numerals for the radix rather than a numeric literal. For example, a hexadecimal `OfRadix` instance for some type `Foo` would look similar to the following:
 
 ```lean
 instance {digits : Array (Fin (16))} : 

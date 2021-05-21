@@ -1,6 +1,7 @@
 import BetterNumLits.Digits
-import BetterNumLits.Nat
+import BetterNumLits.Numerals
 import BetterNumLits.Notation
+import BetterNumLits.Nat
 import BetterNumLits.OfRadix 
 import BetterNumLits.Fin
 

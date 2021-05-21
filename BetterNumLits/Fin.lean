@@ -1,5 +1,7 @@
-import BetterNumLits.Digits
+import BetterNumLits.Numerals
 import BetterNumLits.Notation
+import BetterNumLits.Digits
+import BetterNumLits.Nat
 
 abbrev Fin2 := Fin (2)
 
@@ -91,16 +93,22 @@ abbrev thirteen : Fin16 := Fin.mk 13 (by decide)
 abbrev fourteen : Fin16 := Fin.mk 14 (by decide)
 abbrev fifteen  : Fin16 := Fin.mk 15 (by decide)
 
-instance : Zero   Fin16 := ⟨zero⟩
-instance : One    Fin16 := ⟨one⟩
-instance : Two    Fin16 := ⟨two⟩
-instance : Three  Fin16 := ⟨three⟩
-instance : Four   Fin16 := ⟨four⟩
-instance : Five   Fin16 := ⟨five⟩
-instance : Six    Fin16 := ⟨six⟩
-instance : Seven  Fin16 := ⟨seven⟩
-instance : Eight  Fin16 := ⟨eight⟩
-instance : Nine   Fin16 := ⟨nine⟩
+instance : Zero     Fin16 := ⟨zero⟩
+instance : One      Fin16 := ⟨one⟩
+instance : Two      Fin16 := ⟨two⟩
+instance : Three    Fin16 := ⟨three⟩
+instance : Four     Fin16 := ⟨four⟩
+instance : Five     Fin16 := ⟨five⟩
+instance : Six      Fin16 := ⟨six⟩
+instance : Seven    Fin16 := ⟨seven⟩
+instance : Eight    Fin16 := ⟨eight⟩
+instance : Nine     Fin16 := ⟨nine⟩
+instance : Ten      Fin16 := ⟨ten⟩
+instance : Eleven   Fin16 := ⟨eleven⟩
+instance : Twelve   Fin16 := ⟨twelve⟩
+instance : Thirteen Fin16 := ⟨thirteen⟩
+instance : Fourteen Fin16 := ⟨fourteen⟩
+instance : Fifteen  Fin16 := ⟨fifteen⟩
 
 @[defaultInstance low] instance : Hex0 Fin16 := ⟨zero⟩
 @[defaultInstance low] instance : Hex1 Fin16 := ⟨one⟩

@@ -1,4 +1,4 @@
-import BetterNumLits.Digits
+import BetterNumLits.Numerals
 
 universe u
 

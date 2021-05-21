@@ -1,3 +1,4 @@
+import BetterNumLits.Numerals
 import BetterNumLits.Digits
 import BetterNumLits.Nat
 import BetterNumLits.OfRadix 
@@ -6,17 +7,6 @@ import BetterNumLits.Fin
 open Lean Syntax PrettyPrinter
 
 @[inline] abbrev unexpandToNum (s : String) : Unexpander := fun _ => mkNumLit s
-
-@[appUnexpander Zero.zero]    def unexpandZero  := unexpandToNum "0"
-@[appUnexpander One.one]      def unexpandOne   := unexpandToNum "1"
-@[appUnexpander Two.two]      def unexpandTwo   := unexpandToNum "2"
-@[appUnexpander Three.three]  def unexpandThree := unexpandToNum "3"
-@[appUnexpander Four.four]    def unexpandFour  := unexpandToNum "4"
-@[appUnexpander Five.five]    def unexpandFive  := unexpandToNum "5"
-@[appUnexpander Six.six]      def unexpandSix   := unexpandToNum "6"
-@[appUnexpander Seven.seven]  def unexpandSeven := unexpandToNum "7"
-@[appUnexpander Eight.eight]  def unexpandEight := unexpandToNum "8"
-@[appUnexpander Nine.nine]    def unexpandNine  := unexpandToNum "9"
 
 @[appUnexpander Bin0.bin0] def unexpandBin0 := unexpandToNum "0b0"
 @[appUnexpander Bin1.bin1] def unexpandBin1 := unexpandToNum "0b1"
@@ -47,7 +37,7 @@ open Lean Syntax PrettyPrinter
 @[appUnexpander HexE.hexE] def unexpandHexE := unexpandToNum "0xE"
 @[appUnexpander HexF.hexF] def unexpandHexF := unexpandToNum "0xF"
 
-def decodeDigitLit 
+def decodeRadixDigitLit 
   (radixChar : Char) (dstx : Syntax) 
 : Option Char := OptionM.run do
   let dstr <- dstx.isLit? numLitKind
@@ -56,23 +46,35 @@ def decodeDigitLit
   else
     none
 
+def decodeDecNum : Syntax -> Option Char
+| `((0)) => '0'
+| `((1)) => '1'
+| `((2)) => '2'
+| `((3)) => '3'
+| `((4)) => '4'
+| `((5)) => '5'
+| `((6)) => '6'
+| `((7)) => '7'
+| `((8)) => '8'
+| `((9)) => '9'
+| _ => none
+
 @[appUnexpander ofRadix]
 def unexpandOfRadix : Unexpander
-| `($_f:ident $r:term #[$[$ds:numLit],*]) => 
+| `($_f:ident $r:term #[$[$ds:term],*]) => 
   let res := OptionM.run do
     match r with
     | `((10)) => 
-      let num <- ds.mapM fun d => 
-          d.isLit? numLitKind >>= fun s => ite (s.length == 1) s[0] none
+      let num <- ds.mapM decodeDecNum
       mkNumLit (String.mk num.data)
     | `((16)) => 
-      let num <- ds.mapM (decodeDigitLit 'x')
+      let num <- ds.mapM (decodeRadixDigitLit 'x')
       mkNumLit ("0x" ++ String.mk num.data)
     | `((2)) => 
-      let num <- ds.mapM (decodeDigitLit 'b')
+      let num <- ds.mapM (decodeRadixDigitLit 'b')
       mkNumLit ("0b" ++ String.mk num.data)
     | `((8)) => 
-      let num <- ds.mapM (decodeDigitLit 'o')
+      let num <- ds.mapM (decodeRadixDigitLit 'o')
       mkNumLit ("0o" ++ String.mk num.data)
     | _ => none
   match res with | some v => v | none => throw ()
