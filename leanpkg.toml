@@ -1,4 +1,4 @@
 [package]
 name = "BetterNumLits"
-version = "1.0"
+version = "2.0-pre"
 lean_version = "leanprover/lean4:nightly-2021-05-20"
