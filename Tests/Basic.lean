@@ -110,4 +110,9 @@ import BetterNumLits
 #check ofRadix _ #[0b1, 0b0, 0b1]
 #check ofRadix _ #[0xA, 0x2, 0xF]
 #check ofRadix _ #[0o1, 0o4, 0o7]
+
+-- Numeral Unexpanders
+#check ofRadix (2)  #[1, 0, 1]
+#check ofRadix (16) #[(10), 2, (15)]
+#check ofRadix (8)  #[1, 4, 7]
 #check ofRadix (10) #[0, 1, 2]

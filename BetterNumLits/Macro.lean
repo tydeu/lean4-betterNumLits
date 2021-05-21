@@ -8,24 +8,36 @@ import BetterNumLits.Fin
 open Lean Syntax
 
 def digitToStx : Char -> Syntax
-| '0' => mkCIdent ``zero
-| '1' => mkCIdent ``one
-| '2' => mkCIdent ``two
-| '3' => mkCIdent ``three
-| '4' => mkCIdent ``four
-| '5' => mkCIdent ``five
-| '6' => mkCIdent ``six
-| '7' => mkCIdent ``seven
-| '8' => mkCIdent ``eight
-| '9' => mkCIdent ``nine
+| '0' => mkLit ``num0 "(0)"
+| '1' => mkLit ``num1 "(1)"
+| '2' => mkLit ``num2 "(2)"
+| '3' => mkLit ``num3 "(3)"
+| '4' => mkLit ``num4 "(4)"
+| '5' => mkLit ``num5 "(5)"
+| '6' => mkLit ``num6 "(6)"
+| '7' => mkLit ``num7 "(7)"
+| '8' => mkLit ``num8 "(8)"
+| '9' => mkLit ``num9 "(9)"
+| 'a' => mkLit ``num10 "(10)"
+| 'A' => mkLit ``num10 "(10)"
+| 'b' => mkLit ``num11 "(11)"
+| 'B' => mkLit ``num11 "(11)"
+| 'c' => mkLit ``num12 "(12)"
+| 'C' => mkLit ``num12 "(12)"
+| 'd' => mkLit ``num13 "(13)"
+| 'D' => mkLit ``num13 "(13)"
+| 'e' => mkLit ``num14 "(14)"
+| 'E' => mkLit ``num14 "(14)"
+| 'f' => mkLit ``num15 "(15)"
+| 'F' => mkLit ``num15 "(15)"
 | _ => Syntax.missing
 
-def bitToStx : Char -> Syntax
+def binDigitToStx : Char -> Syntax
 | '0' => mkCIdent ``bin0
 | '1' => mkCIdent ``bin1
 | _ => Syntax.missing
 
-def octToStx : Char -> Syntax
+def octDigitToStx : Char -> Syntax
 | '0' => mkCIdent ``oct0
 | '1' => mkCIdent ``oct1
 | '2' => mkCIdent ``oct2
@@ -36,7 +48,7 @@ def octToStx : Char -> Syntax
 | '7' => mkCIdent ``oct7
 | _ => Syntax.missing
 
-def hexToStx : Char -> Syntax
+def hexDigitToStx : Char -> Syntax
 | '0' => mkCIdent ``hex0
 | '1' => mkCIdent ``hex1
 | '2' => mkCIdent ``hex2
@@ -88,19 +100,19 @@ def expandRadixLit (stx : Syntax) (str : String) : MacroM Syntax :=
         let c := str.get 1
         if c == 'x' || c == 'X' then 
           if len == 3 then 
-            hexToStx (str.get 2)
+            hexDigitToStx (str.get 2)
           else do
-            digitsToStx (<- `((16))) hexToStx str 2
+            digitsToStx (<- `((16))) digitToStx str 2
         else if c == 'b' || c == 'B' then 
           if len == 3 then 
-            bitToStx (str.get 2)
+            binDigitToStx (str.get 2)
           else do
-            digitsToStx (<- `((2))) bitToStx str 2
+            digitsToStx (<- `((2))) digitToStx str 2
         else if c == 'o' || c == 'O' then 
           if len == 3 then 
-            octToStx (str.get 2)
+            octDigitToStx (str.get 2)
           else do
-            digitsToStx (<- `((8))) octToStx str 2
+            digitsToStx (<- `((8))) digitToStx str 2
         else if c.isDigit then do
           digitsToStx (<- `((10))) digitToStx str 0
         else 

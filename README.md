@@ -11,8 +11,7 @@ This package provides an alternative macro expansion of Lean 4's numerical liter
 
 ## Numerals
 
-The `BetterNumLits` package notation for common numerals separate from `numLit`.
-Each numeral is expanded to a different type class function.
+The `BetterNumLits` package notation for common numerals that is separate from `numLit`. Each numeral is expanded to a different type class function.
 
 ```
 (0)  => Zero.zero
@@ -99,11 +98,11 @@ abbrev ofRadix {A : Type u} (radix : Nat) (digits : Array (Fin radix))
 Some examples of how literals expand to `ofRadix` are provided below:
 
 ```
-1239   => ofRadix (10) #[one, two, three, nine]
-067845 => ofRadix (10) #[zero, six, seven, eight, four, five]
-0b1011 => ofRadix (2)  #[bin1, bin0, bin1, bin1]
-0xAf04 => ofRadix (16) #[hexA, hexF, hex0, hex4]
-0o2041 => ofRadix (8)  #[oct2, oct0, oct4, oct1]
+1239   => ofRadix (10) #[(1),  (2),  (3), (9)]
+067845 => ofRadix (10) #[(0),  (6),  (7), (8), (4), (5)]
+0b1011 => ofRadix (2)  #[(1),  (0),  (1), (1)]
+0xAf04 => ofRadix (16) #[(10), (16), (0), (4)]
+0o2041 => ofRadix (8)  #[(2),  (0),  (4), (1)]
 ```
 
 This makes it easier for the notation to support custom types that may be better expressed in positional form than `Nat`'s successor form.

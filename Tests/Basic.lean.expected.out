@@ -86,6 +86,9 @@ ofRadix (16) #[(0), 0xF, (1)] : Nat
 ofRadix (2) #[0b1, (0), (1)] : Nat
 ofRadix (16) #[0xA, (0), (1)] : Nat
 ofRadix (8) #[0o4, (0), (1)] : Nat
+ofRadix (2) #[0b1, 0b0, 0b1] : Nat
+ofRadix (16) #[0xA, 0x2, 0xF] : Nat
+ofRadix (8) #[0o1, 0o4, 0o7] : Nat
 0b101 : Nat
 0xA2F : Nat
 0o147 : Nat

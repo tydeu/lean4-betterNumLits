@@ -6,6 +6,10 @@ import BetterNumLits.Fin
 
 open Lean Syntax PrettyPrinter
 
+--------------------------------------------------------------------------------
+-- Digit Unexpanders
+--------------------------------------------------------------------------------
+
 @[inline] abbrev unexpandToNum (s : String) : Unexpander := fun _ => mkNumLit s
 
 @[appUnexpander Bin0.bin0] def unexpandBin0 := unexpandToNum "0b0"
@@ -37,6 +41,10 @@ open Lean Syntax PrettyPrinter
 @[appUnexpander HexE.hexE] def unexpandHexE := unexpandToNum "0xE"
 @[appUnexpander HexF.hexF] def unexpandHexF := unexpandToNum "0xF"
 
+--------------------------------------------------------------------------------
+-- Radix Unexpander (& Helpers)
+--------------------------------------------------------------------------------
+
 def decodeRadixDigitLit 
   (radixChar : Char) (dstx : Syntax) 
 : Option Char := OptionM.run do
@@ -45,6 +53,22 @@ def decodeRadixDigitLit
     dstr[2]
   else
     none
+
+def decodeBinNum : Syntax -> Option Char
+| `((0)) => '0'
+| `((1)) => '1'
+| _ => none
+
+def decodeOctNum : Syntax -> Option Char
+| `((0)) => '0'
+| `((1)) => '1'
+| `((2)) => '2'
+| `((3)) => '3'
+| `((4)) => '4'
+| `((5)) => '5'
+| `((6)) => '6'
+| `((7)) => '7'
+| _ => none
 
 def decodeDecNum : Syntax -> Option Char
 | `((0)) => '0'
@@ -59,6 +83,25 @@ def decodeDecNum : Syntax -> Option Char
 | `((9)) => '9'
 | _ => none
 
+def decodeHexNum : Syntax -> Option Char
+| `((0))  => '0'
+| `((1))  => '1'
+| `((2))  => '2'
+| `((3))  => '3'
+| `((4))  => '4'
+| `((5))  => '5'
+| `((6))  => '6'
+| `((7))  => '7'
+| `((8))  => '8'
+| `((9))  => '9'
+| `((10)) => 'A'
+| `((11)) => 'B'
+| `((12)) => 'C'
+| `((13)) => 'D'
+| `((14)) => 'E'
+| `((15)) => 'F'
+| _ => none
+
 @[appUnexpander ofRadix]
 def unexpandOfRadix : Unexpander
 | `($_f:ident $r:term #[$[$ds:term],*]) => 
@@ -68,13 +111,13 @@ def unexpandOfRadix : Unexpander
       let num <- ds.mapM decodeDecNum
       mkNumLit (String.mk num.data)
     | `((16)) => 
-      let num <- ds.mapM (decodeRadixDigitLit 'x')
+      let num <- ds.mapM decodeHexNum
       mkNumLit ("0x" ++ String.mk num.data)
     | `((2)) => 
-      let num <- ds.mapM (decodeRadixDigitLit 'b')
+      let num <- ds.mapM decodeBinNum
       mkNumLit ("0b" ++ String.mk num.data)
     | `((8)) => 
-      let num <- ds.mapM (decodeRadixDigitLit 'o')
+      let num <- ds.mapM decodeOctNum
       mkNumLit ("0o" ++ String.mk num.data)
     | _ => none
   match res with | some v => v | none => throw ()
