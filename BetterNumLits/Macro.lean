@@ -71,7 +71,7 @@ def digitsToStx
   (radix : Syntax) (digitFn : Char -> Syntax) (str : String) (off : String.Pos)
 : MacroM Syntax :=
   let digits := quote $ List.toArray $ digitsToStxList digitFn str off
-  `(ofRadix (radix := $radix) (digits := $digits))
+  `(ofRadix $radix $digits)
 
 def expandRadixLit (stx : Syntax) (str : String) : MacroM Syntax :=
   let len := str.length

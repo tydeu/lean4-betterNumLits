@@ -64,10 +64,10 @@
 11
 44804
 1057
-ofRadix #[0, 0xF, 1] : Nat
-ofRadix #[0b1, 0, 1] : Nat
-ofRadix #[0xA, 0, 1] : Nat
-ofRadix #[0o4, 0, 1] : Nat
+ofRadix Nat.sixteen #[0, 0xF, 1] : Nat
+ofRadix Nat.two #[0b1, 0, 1] : Nat
+ofRadix Nat.sixteen #[0xA, 0, 1] : Nat
+ofRadix Nat.eight #[0o4, 0, 1] : Nat
 0b101 : Nat
 0xA2F : Nat
 0o147 : Nat

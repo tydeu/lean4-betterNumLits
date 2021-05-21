@@ -56,9 +56,9 @@ def decodeDigitLit
   else
     none
 
-@[appUnexpander OfRadix.ofRadix]
+@[appUnexpander ofRadix]
 def unexpandOfRadix : Unexpander
-| `($_f:ident #[$[$ds:numLit],*]) => 
+| `($_f:ident $r:term #[$[$ds:numLit],*]) => 
   let res := OptionM.run do
     let d <- isLit? numLitKind ds[0]
     let len := d.length

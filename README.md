@@ -61,11 +61,14 @@ The current implementation defaults radix-specific digits (ex. `0b0`, `0o0`, `0x
 
 ## Number Expansion
 
-Multi-digit numbers of radix `r` are expanded into an `Array` of `Fin r` that is passed along with the radix to the function `ofRadix` of the type class `OfRadix`, which is defined as follows:
+Multi-digit numbers of radix `r` are expanded into an `Array` of `Fin r` that is passed along with the radix to the function `ofRadix` that relies on the type class `OfRadix`, which are defined as follows:
 
 ```lean
 class OfRadix (A : Type u) (radix : Nat) (digits : Array (Fin radix)) where
   ofRadix : A
+
+abbrev ofRadix {A : Type u} (radix : Nat) (digits : Array (Fin radix))
+  [inst : OfRadix A radix digits] : A := inst.ofRadix
 ```
 
 Some examples of how literals expand to `ofRadix` are provided below:

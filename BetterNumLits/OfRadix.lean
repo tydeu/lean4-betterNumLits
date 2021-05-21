@@ -5,7 +5,8 @@ universe u
 class OfRadix (A : Type u) (radix : Nat) (digits : Array (Fin radix)) where
   ofRadix : A
 
-export OfRadix (ofRadix)
+abbrev ofRadix {A : Type u} (radix : Nat) (digits : Array (Fin radix))
+  [inst : OfRadix A radix digits] : A := inst.ofRadix
 
 @[defaultInstance low]
 instance {r : Nat} {ds : Array (Fin r)} 

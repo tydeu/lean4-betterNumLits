@@ -81,13 +81,13 @@ import BetterNumLits
 #reduce 0o2041 -- 1057
 
 -- Heterogenous Unexpanders
-#check ofRadix #[0, 0xF, 1]
-#check ofRadix #[0b1, 0, 1]
-#check ofRadix #[0xA, 0, 1]
-#check ofRadix #[0o4, 0, 1]
+#check ofRadix _ #[0, 0xF, 1]
+#check ofRadix _ #[0b1, 0, 1]
+#check ofRadix _ #[0xA, 0, 1]
+#check ofRadix _ #[0o4, 0, 1]
 
 -- Homogenous Unexpanders
-#check ofRadix #[0b1, 0b0, 0b1]
-#check ofRadix #[0xA, 0x2, 0xF]
-#check ofRadix #[0o1, 0o4, 0o7]
-#check ofRadix (radix := Nat.ten) #[0, 1, 2]
+#check ofRadix _ #[0b1, 0b0, 0b1]
+#check ofRadix _ #[0xA, 0x2, 0xF]
+#check ofRadix _ #[0o1, 0o4, 0o7]
+#check ofRadix Nat.ten #[0, 1, 2]
