@@ -12,6 +12,10 @@ abbrev ofRadix {A : Type u} (radix : Nat) (digits : Array (Fin radix))
 instance {r : Nat} {ds : Array (Fin r)} 
   : OfRadix Nat r ds := ⟨ds.foldl (fun n d => n * r + d) Nat.zero⟩
 
+@[defaultInstance low + low]
+instance {r : Nat} {n : Fin r} 
+  : OfRadix (Fin r) r #[n] := ⟨n⟩
+
 instance {A : Type u} {r : Nat} {ds : Array (Fin r)} 
   [Zero A] [Mul A] [Add A] [CoeHTCT Nat A] [CoeHTCT (Fin r) A] 
   : OfRadix A r ds := ⟨ds.foldl (fun n d => n * (coe r) + (coe d)) zero⟩

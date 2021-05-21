@@ -35,57 +35,26 @@ The `BetterNumLits` package notation for common numerals that is separate from `
 
 ## Digit Expansion
 
-Each unique single digit literal is also expanded to a different type class function.
+Each single decimal digit literal is expanded to its numeral.
 
 ```
-0 => Zero.zero
-1 => One.one
-2 => Two.two
-3 => Three.three
-4 => Four.four
-5 => Five.five
-6 => Six.six
-7 => Seven.seven
-8 => Eight.eight
-9 => Nine.nine
-
-0b0 => Bin0.bin0
-0b1 => Bin1.bin1
-
-0o0 => Oct0.oct0
-0o1 => Oct1.oct1
-0o2 => Oct2.oct2
-0o3 => Oct3.oct3
-0o4 => Oct4.oct4
-0o5 => Oct5.oct5
-0o6 => Oct6.oct6
-0o7 => Oct7.oct7
-
-0x0 => Hex0.hex0
-0x1 => Hex1.hex1
-0x2 => Hex2.hex2
-0x3 => Hex3.hex3
-0x4 => Hex4.hex4
-0x5 => Hex5.hex5
-0x6 => Hex6.hex6
-0x7 => Hex7.hex7
-0x8 => Hex8.hex8
-0x9 => Hex9.hex9
-0xA => HexA.hexA
-0xB => HexB.hexB
-0xC => HexC.hexC
-0xD => HexD.hexD
-0xE => HexE.hexE
-0xF => HexF.hexF
+0 => (0)
+1 => (1)
+2 => (2)
+3 => (3)
+4 => (4)
+5 => (5)
+6 => (6)
+7 => (7)
+8 => (8)
+9 => (9)
 ```
 
-Note that letters in numerals are case-insensitive. However, the canonical form used by the unexpanders is lower case for radix markers (i.e., `b`, `o`, `x`) and upper case for hexadecimal digits (i.e. `A`-`F`).
-
-The current implementation defaults radix-specific digits (ex. `0b0`, `0o0`, `0x0`) to `Fin 2`, `Fin 8`,  and `Fin 16` instead of `Nat`, as that seemed more appropriate to the creator. This could easily be changing by marking the `Nat` instances with a higher priority `@[defaultInstance]`.
+Radix-specific digits (ex. `0b0`, `0o0`, `0x0`) are expanded in the same way multi-digit numbers are (see below). However, instead of defaulting to `Nat`, they default to `Fin 2`, `Fin 8`,  and `Fin 16` (for binary, octal, and hexadecimal digits, respectively), because this seemed more appropriate to the creator. This can easily be changing by marking the `Nat` `OfRadix` instance with a higher priority `@[defaultInstance]` than the `Fin` instance.
 
 ## Number Expansion
 
-Multi-digit numbers of radix `r` are expanded into an `Array` of `Fin r` that is passed along with the radix to the function `ofRadix` that relies on the type class `OfRadix`, which are defined as follows:
+Numbers of radix `r` are expanded into an `Array` of `Fin r` that is passed along with the radix to the function `ofRadix` that relies on the type class `OfRadix`, which are defined as follows:
 
 ```lean
 class OfRadix (A : Type u) (radix : Nat) (digits : Array (Fin radix)) where
@@ -107,7 +76,7 @@ Some examples of how literals expand to `ofRadix` are provided below:
 
 This makes it easier for the notation to support custom types that may be better expressed in positional form than `Nat`'s successor form.
 
-Due to the way Lean instance selection works, it is important to define radix-specific instances for `OfRadix` by using numerals for the radix rather than a numeric literal. For example, a hexadecimal `OfRadix` instance for some type `Foo` would look similar to the following:
+Due to the way Lean instance selection works, it is important to define radix-specific instances for `OfRadix` by using a numeral for the radix rather than a numeric literal. For example, a hexadecimal `OfRadix` instance for some type `Foo` would look similar to the following:
 
 ```lean
 instance {digits : Array (Fin (16))} : 
@@ -118,7 +87,7 @@ This essentially supplants how `nat_lit` would be used for defining instances of
 
 ## Pretty Printing
 
-As a consequence of the new expansion, more intelligent unexpansion was also possible. The unexpanders provided in `BetterNumLit` preserve the base of the original literal for pretty printing. However, the specific letter casing of the radix marker and hexadecimal digits is lost and instead converted to their canonical form (i.e., lower case for the marker, upper case for the digits). 
+As a consequence of the new expansion, more intelligent unexpansion was also possible. The unexpanders provided in `BetterNumLit` preserve the base of the original literal for pretty printing. However, the specific letter casing of the radix marker and hexadecimal digits is lost. The unexpander thus chooses a canonical form to represent them -- lower case for the marker (i.e., `b`, `o`, `x`) and upper case for the hexadecimal digits (i.e. `A`-`F`). 
 
 Here are some examples of how literals unexpand:
 

@@ -1,5 +1,4 @@
 import BetterNumLits.Numerals
-import BetterNumLits.Digits
 
 namespace Nat
 
@@ -37,32 +36,3 @@ abbrev sixteen  := 16
 @[defaultInstance low] instance : Fourteen  Nat := ⟨fourteen⟩
 @[defaultInstance low] instance : Fifteen   Nat := ⟨fifteen⟩
 @[defaultInstance low] instance : Sixteen   Nat := ⟨sixteen⟩
-
-instance : Bin0 Nat := ⟨zero⟩
-instance : Bin1 Nat := ⟨one⟩
-
-instance : Oct0 Nat := ⟨zero⟩
-instance : Oct1 Nat := ⟨one⟩
-instance : Oct2 Nat := ⟨two⟩
-instance : Oct3 Nat := ⟨three⟩
-instance : Oct4 Nat := ⟨four⟩
-instance : Oct5 Nat := ⟨five⟩
-instance : Oct6 Nat := ⟨six⟩
-instance : Oct7 Nat := ⟨seven⟩
-
-instance : Hex0 Nat := ⟨zero⟩
-instance : Hex1 Nat := ⟨one⟩
-instance : Hex2 Nat := ⟨two⟩
-instance : Hex3 Nat := ⟨three⟩
-instance : Hex4 Nat := ⟨four⟩
-instance : Hex5 Nat := ⟨five⟩
-instance : Hex6 Nat := ⟨six⟩
-instance : Hex7 Nat := ⟨seven⟩
-instance : Hex8 Nat := ⟨eight⟩
-instance : Hex9 Nat := ⟨nine⟩
-instance : HexA Nat := ⟨ten⟩
-instance : HexB Nat := ⟨eleven⟩
-instance : HexC Nat := ⟨twelve⟩
-instance : HexD Nat := ⟨thirteen⟩
-instance : HexE Nat := ⟨fourteen⟩
-instance : HexF Nat := ⟨fifteen⟩

@@ -26,16 +26,16 @@
 (7) : Nat
 (8) : Nat
 (9) : Nat
-0b0 : Fin2
-0b1 : Fin2
-0o0 : Fin8
-0o1 : Fin8
-0o2 : Fin8
-0o3 : Fin8
-0o4 : Fin8
-0o5 : Fin8
-0o6 : Fin8
-0o7 : Fin8
+0b0 : Fin (2)
+0b1 : Fin (2)
+0o0 : Fin (8)
+0o1 : Fin (8)
+0o2 : Fin (8)
+0o3 : Fin (8)
+0o4 : Fin (8)
+0o5 : Fin (8)
+0o6 : Fin (8)
+0o7 : Fin (8)
 00 : Nat
 01 : Nat
 02 : Nat
@@ -46,29 +46,29 @@
 07 : Nat
 08 : Nat
 09 : Nat
-0x0 : Fin16
-0x1 : Fin16
-0x2 : Fin16
-0x3 : Fin16
-0x4 : Fin16
-0x5 : Fin16
-0x6 : Fin16
-0x7 : Fin16
-0x8 : Fin16
-0x9 : Fin16
-0xA : Fin16
-0xA : Fin16
-0xB : Fin16
-0xB : Fin16
-0xB : Fin16
-0xC : Fin16
-0xC : Fin16
-0xD : Fin16
-0xD : Fin16
-0xE : Fin16
-0xE : Fin16
-0xF : Fin16
-0xF : Fin16
+0x0 : Fin (16)
+0x1 : Fin (16)
+0x2 : Fin (16)
+0x3 : Fin (16)
+0x4 : Fin (16)
+0x5 : Fin (16)
+0x6 : Fin (16)
+0x7 : Fin (16)
+0x8 : Fin (16)
+0x9 : Fin (16)
+0xA : Fin (16)
+0xA : Fin (16)
+0xB : Fin (16)
+0xB : Fin (16)
+0xB : Fin (16)
+0xC : Fin (16)
+0xC : Fin (16)
+0xD : Fin (16)
+0xD : Fin (16)
+0xE : Fin (16)
+0xE : Fin (16)
+0xF : Fin (16)
+0xF : Fin (16)
 1239 : Nat
 067845 : Nat
 0b1011 : Nat

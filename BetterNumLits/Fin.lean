@@ -1,6 +1,6 @@
 import BetterNumLits.Numerals
 import BetterNumLits.Notation
-import BetterNumLits.Digits
+import BetterNumLits.OfRadix
 import BetterNumLits.Nat
 
 abbrev Fin2 := Fin (2)
@@ -11,9 +11,6 @@ abbrev one  : Fin2 := Fin.mk 1 (by decide)
 
 instance : Zero Fin2 := ⟨zero⟩
 instance : One  Fin2 := ⟨one⟩
-
-@[defaultInstance low] instance : Bin0 Fin2 := ⟨zero⟩
-@[defaultInstance low] instance : Bin1 Fin2 := ⟨one⟩
 end Fin2
 
 abbrev Fin8 := Fin (8)
@@ -36,15 +33,6 @@ instance : Four   Fin8 := ⟨four⟩
 instance : Five   Fin8 := ⟨five⟩
 instance : Six    Fin8 := ⟨six⟩
 instance : Seven  Fin8 := ⟨seven⟩
-
-@[defaultInstance low] instance : Oct0 Fin8 := ⟨zero⟩
-@[defaultInstance low] instance : Oct1 Fin8 := ⟨one⟩
-@[defaultInstance low] instance : Oct2 Fin8 := ⟨two⟩
-@[defaultInstance low] instance : Oct3 Fin8 := ⟨three⟩
-@[defaultInstance low] instance : Oct4 Fin8 := ⟨four⟩
-@[defaultInstance low] instance : Oct5 Fin8 := ⟨five⟩
-@[defaultInstance low] instance : Oct6 Fin8 := ⟨six⟩
-@[defaultInstance low] instance : Oct7 Fin8 := ⟨seven⟩
 end Fin8
 
 abbrev Fin10 := Fin (10)
@@ -109,21 +97,4 @@ instance : Twelve   Fin16 := ⟨twelve⟩
 instance : Thirteen Fin16 := ⟨thirteen⟩
 instance : Fourteen Fin16 := ⟨fourteen⟩
 instance : Fifteen  Fin16 := ⟨fifteen⟩
-
-@[defaultInstance low] instance : Hex0 Fin16 := ⟨zero⟩
-@[defaultInstance low] instance : Hex1 Fin16 := ⟨one⟩
-@[defaultInstance low] instance : Hex2 Fin16 := ⟨two⟩
-@[defaultInstance low] instance : Hex3 Fin16 := ⟨three⟩
-@[defaultInstance low] instance : Hex4 Fin16 := ⟨four⟩
-@[defaultInstance low] instance : Hex5 Fin16 := ⟨five⟩
-@[defaultInstance low] instance : Hex6 Fin16 := ⟨six⟩
-@[defaultInstance low] instance : Hex7 Fin16 := ⟨seven⟩
-@[defaultInstance low] instance : Hex8 Fin16 := ⟨eight⟩
-@[defaultInstance low] instance : Hex9 Fin16 := ⟨nine⟩
-@[defaultInstance low] instance : HexA Fin16 := ⟨ten⟩
-@[defaultInstance low] instance : HexB Fin16 := ⟨eleven⟩
-@[defaultInstance low] instance : HexC Fin16 := ⟨twelve⟩
-@[defaultInstance low] instance : HexD Fin16 := ⟨thirteen⟩
-@[defaultInstance low] instance : HexE Fin16 := ⟨fourteen⟩
-@[defaultInstance low] instance : HexF Fin16 := ⟨fifteen⟩
 end Fin16
