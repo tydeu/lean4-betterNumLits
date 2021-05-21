@@ -60,26 +60,20 @@ def decodeDigitLit
 def unexpandOfRadix : Unexpander
 | `($_f:ident $r:term #[$[$ds:numLit],*]) => 
   let res := OptionM.run do
-    let d <- isLit? numLitKind ds[0]
-    let len := d.length
-    if len == 1 then
+    match r with
+    | `((10)) => 
       let num <- ds.mapM fun d => 
-        d.isLit? numLitKind >>= fun s => ite (s.length == 1) s[0] none
-      mkNumLit (String.mk num.toList)
-    else if len == 3 && d[0] == '0' then
-      let d1 := d[1]
-      if d1 == 'x' then
-        let num <- ds.mapM (decodeDigitLit 'x')
-        mkNumLit ("0x" ++ String.mk num.toList)
-      else if d1 == 'b' then
-        let num <- ds.mapM (decodeDigitLit 'b')
-        mkNumLit ("0b" ++ String.mk num.toList)
-      else if d1 == 'o' then
-        let num <- ds.mapM (decodeDigitLit 'o')
-        mkNumLit ("0o" ++ String.mk num.toList)
-      else
-        none
-    else
-      none
+          d.isLit? numLitKind >>= fun s => ite (s.length == 1) s[0] none
+      mkNumLit (String.mk num.data)
+    | `((16)) => 
+      let num <- ds.mapM (decodeDigitLit 'x')
+      mkNumLit ("0x" ++ String.mk num.data)
+    | `((2)) => 
+      let num <- ds.mapM (decodeDigitLit 'b')
+      mkNumLit ("0b" ++ String.mk num.data)
+    | `((8)) => 
+      let num <- ds.mapM (decodeDigitLit 'o')
+      mkNumLit ("0o" ++ String.mk num.data)
+    | _ => none
   match res with | some v => v | none => throw ()
 | _ => throw ()

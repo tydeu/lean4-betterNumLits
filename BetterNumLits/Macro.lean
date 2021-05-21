@@ -1,5 +1,6 @@
 import BetterNumLits.Digits
 import BetterNumLits.Nat
+import BetterNumLits.Notation
 import BetterNumLits.OfRadix 
 import BetterNumLits.Fin
 
@@ -87,24 +88,24 @@ def expandRadixLit (stx : Syntax) (str : String) : MacroM Syntax :=
         if c == 'x' || c == 'X' then 
           if len == 3 then 
             hexToStx (str.get 2)
-          else
-            digitsToStx (mkCIdent ``Nat.sixteen) hexToStx str 2
+          else do
+            digitsToStx (<- `((16))) hexToStx str 2
         else if c == 'b' || c == 'B' then 
           if len == 3 then 
             bitToStx (str.get 2)
-          else
-            digitsToStx (mkCIdent ``Nat.two) bitToStx str 2
+          else do
+            digitsToStx (<- `((2))) bitToStx str 2
         else if c == 'o' || c == 'O' then 
           if len == 3 then 
             octToStx (str.get 2)
-          else
-            digitsToStx (mkCIdent ``Nat.eight) octToStx str 2
-        else if c.isDigit then 
-          digitsToStx (mkCIdent ``Nat.ten) digitToStx str 0
+          else do
+            digitsToStx (<- `((8))) octToStx str 2
+        else if c.isDigit then do
+          digitsToStx (<- `((10))) digitToStx str 0
         else 
           Macro.throwErrorAt stx "invalid num lit prefix"
-      else if c.isDigit then 
-        digitsToStx (mkCIdent ``Nat.ten) digitToStx str 0
+      else if c.isDigit then do
+        digitsToStx (<- `((10))) digitToStx str 0
       else 
         Macro.throwErrorAt stx "invalid num lit"
 

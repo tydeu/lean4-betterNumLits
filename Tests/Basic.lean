@@ -1,5 +1,25 @@
 import BetterNumLits
 
+-- Numerals
+#check (0)
+#check (1)
+#check (2)
+#check (3)
+#check (4)
+#check (5)
+#check (6)
+#check (7)
+#check (8)
+#check (9)
+#check (9)
+#check (10)
+#check (11)
+#check (12)
+#check (13)
+#check (14)
+#check (15)
+#check (16)
+
 -- Digits
 #check 0
 #check 1
@@ -90,4 +110,4 @@ import BetterNumLits
 #check ofRadix _ #[0b1, 0b0, 0b1]
 #check ofRadix _ #[0xA, 0x2, 0xF]
 #check ofRadix _ #[0o1, 0o4, 0o7]
-#check ofRadix Nat.ten #[0, 1, 2]
+#check ofRadix (10) #[0, 1, 2]

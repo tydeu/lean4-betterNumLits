@@ -1,7 +1,7 @@
 import BetterNumLits.Digits
-import BetterNumLits.Nat
+import BetterNumLits.Notation
 
-abbrev Fin2 := Fin Nat.two
+abbrev Fin2 := Fin (2)
 
 namespace Fin2
 abbrev zero : Fin2 := Fin.mk 0 (by decide)
@@ -14,7 +14,7 @@ instance : One  Fin2 := ⟨one⟩
 @[defaultInstance low] instance : Bin1 Fin2 := ⟨one⟩
 end Fin2
 
-abbrev Fin8 := Fin Nat.eight
+abbrev Fin8 := Fin (8)
 
 namespace Fin8
 abbrev zero  : Fin8 := Fin.mk 0 (by decide)
@@ -45,7 +45,7 @@ instance : Seven  Fin8 := ⟨seven⟩
 @[defaultInstance low] instance : Oct7 Fin8 := ⟨seven⟩
 end Fin8
 
-abbrev Fin10 := Fin Nat.ten
+abbrev Fin10 := Fin (10)
 
 namespace Fin10
 abbrev zero   : Fin10 := Fin.mk 0 (by decide)
@@ -71,7 +71,7 @@ instance : Eight  Fin10 := ⟨eight⟩
 instance : Nine   Fin10 := ⟨nine⟩
 end Fin10
 
-abbrev Fin16 := Fin Nat.sixteen
+abbrev Fin16 := Fin (16)
 
 namespace Fin16
 abbrev zero     : Fin16 := Fin.mk 0  (by decide)

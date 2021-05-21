@@ -9,6 +9,30 @@ This package provides an alternative macro expansion of Lean 4's numerical liter
 - No need for `nat_lit` (sort of)
 - Entirely syntactic
 
+## Numerals (WIP)
+
+The `BetterNumLits` package defines shorthand notation for common numerals:
+
+```
+(0)  => Nat.zero
+(1)  => Nat.one
+(2)  => Nat.two
+(3)  => Nat.three
+(4)  => Nat.four
+(5)  => Nat.five
+(6)  => Nat.six
+(7)  => Nat.seven
+(8)  => Nat.eight
+(9)  => Nat.nine
+(10) => Nat.ten
+(11) => Nat.eleven
+(12) => Nat.twelve
+(13) => Nat.thirteen
+(14) => Nat.fourteen
+(15) => Nat.fifteen
+(16) => Nat.sixteen
+```
+
 ## Digit Expansion
 
 Each unique single digit literal is expanded to a different type class function. The mapping is as follows:
@@ -74,20 +98,20 @@ abbrev ofRadix {A : Type u} (radix : Nat) (digits : Array (Fin radix))
 Some examples of how literals expand to `ofRadix` are provided below:
 
 ```
-1239   => ofRadix Nat.ten     #[one, two, three, nine]
-067845 => ofRadix Nat.ten     #[zero, six, seven, eight, four, five]
-0b1011 => ofRadix Nat.two     #[bin1, bin0, bin1, bin1]
-0xAf04 => ofRadix Nat.sixteen #[hexA, hexF, hex0, hex4]
-0o2041 => ofRadix Nat.eight   #[oct2, oct0, oct4, oct1]
+1239   => ofRadix (10) #[one, two, three, nine]
+067845 => ofRadix (10) #[zero, six, seven, eight, four, five]
+0b1011 => ofRadix (2)  #[bin1, bin0, bin1, bin1]
+0xAf04 => ofRadix (16) #[hexA, hexF, hex0, hex4]
+0o2041 => ofRadix (8)  #[oct2, oct0, oct4, oct1]
 ```
 
 This makes it easier for the notation to support custom types that may be better expressed in positional form than `Nat`'s successor form.
 
-Due to the way Lean instance selection works, it is important to define radix-specific instances for `OfRadix` by using the `Nat` function for the radix rather than a literal. For example, a hexadecimal `OfRadix` instance for some type `Foo` would look similar to the following:
+Due to the way Lean instance selection works, it is important to define radix-specific instances for `OfRadix` by using the `Nat` function (or its shorthand notation) for the radix rather than a literal. For example, a hexadecimal `OfRadix` instance for some type `Foo` would look similar to the following:
 
 ```lean
-instance {digits : Array (Fin Nat.sixteen)} : 
-  OfRadix Foo Nat.sixteen digits := {ofRadix := ...}
+instance {digits : Array (Fin (16))} : 
+  OfRadix Foo (16) digits := {ofRadix := ...}
 ```
 
 This essentially supplants how `nat_lit` would be used for defining instances of the original `OfNat` class.
