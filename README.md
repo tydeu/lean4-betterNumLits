@@ -3,7 +3,7 @@
 This package provides an alternative macro expansion of Lean 4's numerical literals (i.e., `numLit`). 
 
 **Features**
-- Classes for each type of digit
+- Classes for each numeral
 - Multi-digit literals are expanded to an array of digits
 - Radix is preserved during pretty printing
 - No need for `nat_lit` (sort of)
@@ -89,7 +89,7 @@ This essentially supplants how `nat_lit` would be used for defining instances of
 
 As a consequence of the new expansion, more intelligent unexpansion was also possible. The unexpanders provided in `BetterNumLit` preserve the base of the original literal for pretty printing. However, the specific letter casing of the radix marker and hexadecimal digits is lost. The unexpander thus chooses a canonical form to represent them -- lower case for the marker (i.e., `b`, `o`, `x`) and upper case for the hexadecimal digits (i.e. `A`-`F`). 
 
-Here are some examples of how literals unexpand:
+Here are some examples of how multi-digit literals unexpand:
 
 ```
 1239   => 1239
@@ -98,3 +98,7 @@ Here are some examples of how literals unexpand:
 0XAf04 => 0xAF04
 0O2041 => 0o2041
 ```
+
+### Caveats
+
+On the other hand, because both the numeral notation and single decimal digit numeric literals expand to the same type classes, the pretty printer can not distinguish between the two (i.e. `0` and `(0)` are equivalent after expansion). Thus, one has to be chosen as the "canonical" form for pretty printing. The package currently has both `0` and `(0)` unexpand to `0` for aesthetic simplicity, though this does make the details of the implementation more complicated.
