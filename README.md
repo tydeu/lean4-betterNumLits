@@ -11,7 +11,7 @@ This package provides an alternative macro expansion of Lean 4's numerical liter
 
 ## Numerals
 
-The `BetterNumLits` package notation for common numerals that is separate from `numLit`. Each numeral is expanded to a different type class function.
+The `BetterNumLits` package defines notation for common numerals that is separate from `numLit`. Each numeral is expanded to a different type class function.
 
 ```
 (0)  => Zero.zero
@@ -74,7 +74,7 @@ Some examples of how literals expand to `ofRadix` are provided below:
 0o2041 => ofRadix (8)  #[(2),  (0),  (4), (1)]
 ```
 
-This makes it easier for the notation to support custom types that may be better expressed in positional form than `Nat`'s successor form.
+This makes it easier for the notation to support custom types that may be better expressed in positional form than in `Nat`'s successor form.
 
 Due to the way Lean instance selection works, it is important to define radix-specific instances for `OfRadix` by using a numeral for the radix rather than a numeric literal. For example, a hexadecimal `OfRadix` instance for some type `Foo` would look similar to the following:
 
@@ -87,7 +87,7 @@ This essentially supplants how `nat_lit` would be used for defining instances of
 
 ## Pretty Printing
 
-As a consequence of the new expansion, more intelligent unexpansion was also possible. The unexpanders provided in `BetterNumLit` preserve the base of the original literal for pretty printing. However, the specific letter casing of the radix marker and hexadecimal digits is lost. The unexpander thus chooses a canonical form to represent them -- lower case for the marker (i.e., `b`, `o`, `x`) and upper case for the hexadecimal digits (i.e. `A`-`F`). 
+As a consequence of the new expansion, more intelligent unexpansion was also possible. In particular, unexpansion now preserves the base of the original literal for pretty printing. However, the specific letter casing of the radix marker and hexadecimal digits is lost. Thus, the unexpander chooses a canonical form to represent them -- lower case for the marker (i.e., `b`, `o`, `x`) and upper case for the hexadecimal digits (i.e. `A`-`F`). 
 
 Here are some examples of how multi-digit literals unexpand:
 
@@ -101,4 +101,4 @@ Here are some examples of how multi-digit literals unexpand:
 
 ### Caveats
 
-On the other hand, because both the numeral notation and single decimal digit numeric literals expand to the same type classes, the pretty printer can not distinguish between the two (i.e. `0` and `(0)` are equivalent after expansion). Thus, one has to be chosen as the "canonical" form for pretty printing. The package currently has both `0` and `(0)` unexpand to `0` for aesthetic simplicity, though this does make the details of the implementation more complicated.
+On the other hand, because both the numeral notation and single decimal digit numeric literals expand to the same type classes, the pretty printer can not distinguish between the two (i.e. `0` and `(0)` are equivalent after expansion). Thus, one has to be chosen as the canonical form for pretty printing. The package currently has both `0` and `(0)` unexpand to `0` for aesthetic simplicity, though this does make the details of the implementation more complicated.
