@@ -57,7 +57,7 @@ Each unique single digit literal is expanded to a different type class function.
 
 Note that letters in numerals are case-insensitive. However, the canonical form used by the unexpanders is lower case for radix markers (i.e., `b`, `o`, `x`) and upper case for hexadecimal digits (i.e. `A`-`F`).
 
-The current implementation defaults radix-specific digits (ex. `0b0`, `0o0`, `0x0`) to `Fin 2`, `Fin 8`,  `Fin 16` instead of `Nat`, as it seemed more appropriate to the creator. This could easily be changing by marking the `Nat` instances with a higher priority `@[defaultInstance]`.
+The current implementation defaults radix-specific digits (ex. `0b0`, `0o0`, `0x0`) to `Fin 2`, `Fin 8`,  and `Fin 16` instead of `Nat`, as that seemed more appropriate to the creator. This could easily be changing by marking the `Nat` instances with a higher priority `@[defaultInstance]`.
 
 ## Number Expansion
 
@@ -80,7 +80,7 @@ Some examples of how literals expand to `ofRadix` are provided below:
 
 This makes it easier for the notation to support custom types that may be better expressed in positional form than `Nat`'s successor form.
 
-Due to the way Lean instance selection works, it is important to define radix-specific instances for `OfRadix` using the `Nat` function for the radix rather than a literal. For example, for a hexadecimal `OfRadix` the instance would look similar to the following:
+Due to the way Lean instance selection works, it is important to define radix-specific instances for `OfRadix` by using the `Nat` function for the radix rather than a literal. For example, a hexadecimal `OfRadix` instance for some type `Foo` would look similar to the following:
 
 ```lean
 instance {digits : Array (Fin Nat.sixteen)} : 
