@@ -1,6 +1,6 @@
 # BetterNumLits
 
-This package provides an alternative macro expansion of Lean 4's numerical literals (i.e., `numLit`). 
+This package provides an alternative macro expansion of Lean 4's numerical literals (i.e., `num`/`numLit`). It creates a new term syntax `radixLit` that wraps `numLit` so as to not break the usage of `numLit` in other syntax categories (such as the builtin `prec` and `prio` DSLs).
 
 **Features**
 - Classes for each numeral
