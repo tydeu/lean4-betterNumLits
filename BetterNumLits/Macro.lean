@@ -47,7 +47,7 @@ def digitsToStx
   let digits := quote $ List.toArray (<- digitsToStxList str off)
   `(ofRadix $radix $digits)
 
-def expandRadixLitFrom (src : Syntax) (str : String) : MacroM Syntax := do
+def expandRadixNumLitFrom (src : Syntax) (str : String) : MacroM Syntax := do
   let len := str.length
   if len == 0 then 
     Macro.throwErrorAt src "empty numLit"
@@ -73,12 +73,12 @@ def expandRadixLitFrom (src : Syntax) (str : String) : MacroM Syntax := do
       else 
         Macro.throwErrorAt src "invalid numLit"
 
-syntax:max (name := radixLit) (priority := default + default) num : term
+syntax:max (name := radixNum) (priority := default + default) num : term
 
-@[macro radixLit] 
-def expandRadixLit : Macro
+@[macro radixNum] 
+def expandRadixNum : Macro
 | `( $n:numLit ) =>
   match isLit? numLitKind n with
-  | some str => expandRadixLitFrom n str
+  | some str => expandRadixNumLitFrom n str
   | _        => Macro.throwErrorAt n "invalid radixLit"
 | stx => Macro.throwErrorAt stx "invalid radixLit"
