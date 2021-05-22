@@ -9,6 +9,8 @@ This package provides an alternative macro expansion of Lean 4's numerical liter
 - No need for `nat_lit` (sort of)
 - Entirely syntactic
 
+Note that this package is meant to be an example model of how to do this kind of thing in Lean. It is not really designed to be drop-in dependency for this sort of feature (though it can be used that way). I, the creator, am, however, open to adapting it to better fit that use case if some users desire it.
+
 ## Numerals
 
 The `BetterNumLits` package defines notation for common numerals that is separate from `numLit`. Each numeral is expanded to a different type class function.
