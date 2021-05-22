@@ -2,22 +2,22 @@ import BetterNumLits.Numerals
 
 namespace Nat
 
-abbrev one      := 1
-abbrev two      := 2
-abbrev three    := 3
-abbrev four     := 4
-abbrev five     := 5
-abbrev six      := 6
-abbrev seven    := 7
-abbrev eight    := 8
-abbrev nine     := 9
-abbrev ten      := 10
-abbrev eleven   := 11
-abbrev twelve   := 12
-abbrev thirteen := 13
-abbrev fourteen := 14
-abbrev fifteen  := 15
-abbrev sixteen  := 16
+abbrev one      := nat_lit 1
+abbrev two      := nat_lit 2
+abbrev three    := nat_lit 3
+abbrev four     := nat_lit 4
+abbrev five     := nat_lit 5
+abbrev six      := nat_lit 6
+abbrev seven    := nat_lit 7
+abbrev eight    := nat_lit 8
+abbrev nine     := nat_lit 9
+abbrev ten      := nat_lit 10
+abbrev eleven   := nat_lit 11
+abbrev twelve   := nat_lit 12
+abbrev thirteen := nat_lit 13
+abbrev fourteen := nat_lit 14
+abbrev fifteen  := nat_lit 15
+abbrev sixteen  := nat_lit 16
 
 @[defaultInstance low] instance : Zero      Nat := ⟨zero⟩ 
 @[defaultInstance low] instance : One       Nat := ⟨one⟩
