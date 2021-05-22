@@ -6,46 +6,48 @@ import BetterNumLits.Fin
 
 open Lean Syntax
 
-def digitToStx : Char -> Syntax
-| '0' => mkLit ``num0 "(0)"
-| '1' => mkLit ``num1 "(1)"
-| '2' => mkLit ``num2 "(2)"
-| '3' => mkLit ``num3 "(3)"
-| '4' => mkLit ``num4 "(4)"
-| '5' => mkLit ``num5 "(5)"
-| '6' => mkLit ``num6 "(6)"
-| '7' => mkLit ``num7 "(7)"
-| '8' => mkLit ``num8 "(8)"
-| '9' => mkLit ``num9 "(9)"
-| 'a' => mkLit ``num10 "(10)"
-| 'A' => mkLit ``num10 "(10)"
-| 'b' => mkLit ``num11 "(11)"
-| 'B' => mkLit ``num11 "(11)"
-| 'c' => mkLit ``num12 "(12)"
-| 'C' => mkLit ``num12 "(12)"
-| 'd' => mkLit ``num13 "(13)"
-| 'D' => mkLit ``num13 "(13)"
-| 'e' => mkLit ``num14 "(14)"
-| 'E' => mkLit ``num14 "(14)"
-| 'f' => mkLit ``num15 "(15)"
-| 'F' => mkLit ``num15 "(15)"
+def digitToStx : Char -> MacroM Syntax
+| '0' => `((0))
+| '1' => `((1))
+| '2' => `((2))
+| '3' => `((3))
+| '4' => `((4))
+| '5' => `((5))
+| '6' => `((6))
+| '7' => `((7))
+| '8' => `((8))
+| '9' => `((9))
+| 'a' => `((10))
+| 'A' => `((10))
+| 'b' => `((11))
+| 'B' => `((11))
+| 'c' => `((12))
+| 'C' => `((12))
+| 'd' => `((13))
+| 'D' => `((13))
+| 'e' => `((14))
+| 'E' => `((14))
+| 'f' => `((15))
+| 'F' => `((15))
 | _ => Syntax.missing
 
 partial def digitsToStxList
   (str : String) (off : String.Pos) 
-: List Syntax :=
+: MacroM (List Syntax) := do
   if str.atEnd off then 
     []
   else 
-    digitToStx (str.get off) :: digitsToStxList str (str.next off)
+    let d <- digitToStx (str.get off) 
+    let ds <- digitsToStxList str (str.next off)
+    d :: ds
 
 def digitsToStx 
   (radix : Syntax) (str : String) (off : String.Pos)
-: MacroM Syntax :=
-  let digits := quote $ List.toArray $ digitsToStxList str off
+: MacroM Syntax := do
+  let digits := quote $ List.toArray (<- digitsToStxList str off)
   `(ofRadix $radix $digits)
 
-def expandRadixLit (stx : Syntax) (str : String) : MacroM Syntax :=
+def expandRadixLit (stx : Syntax) (str : String) : MacroM Syntax := do
   let len := str.length
   if len == 0 then 
     Macro.throwErrorAt stx "empty numLit"
@@ -56,17 +58,17 @@ def expandRadixLit (stx : Syntax) (str : String) : MacroM Syntax :=
     else
       if c == '0' then 
         let c := str.get 1
-        if c == 'x' || c == 'X' then do
+        if c == 'x' || c == 'X' then 
           digitsToStx (<- `((16))) str 2
-        else if c == 'b' || c == 'B' then do
+        else if c == 'b' || c == 'B' then
           digitsToStx (<- `((2))) str 2
-        else if c == 'o' || c == 'O' then do
+        else if c == 'o' || c == 'O' then
           digitsToStx (<- `((8))) str 2
-        else if c.isDigit then do
+        else if c.isDigit then
           digitsToStx (<- `((10))) str 0
         else 
           Macro.throwErrorAt stx "invalid numLit prefix"
-      else if c.isDigit then do
+      else if c.isDigit then
         digitsToStx (<- `((10))) str 0
       else 
         Macro.throwErrorAt stx "invalid numLit"
