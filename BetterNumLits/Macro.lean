@@ -32,17 +32,17 @@ def digitToStx : Char -> Syntax
 | _ => Syntax.missing
 
 partial def digitsToStxList
-  (digitFn : Char -> Syntax) (str : String) (off : String.Pos) 
+  (str : String) (off : String.Pos) 
 : List Syntax :=
   if str.atEnd off then 
     []
   else 
-    digitFn (str.get off) :: digitsToStxList digitFn str (str.next off)
+    digitToStx (str.get off) :: digitsToStxList str (str.next off)
 
 def digitsToStx 
-  (radix : Syntax) (digitFn : Char -> Syntax) (str : String) (off : String.Pos)
+  (radix : Syntax) (str : String) (off : String.Pos)
 : MacroM Syntax :=
-  let digits := quote $ List.toArray $ digitsToStxList digitFn str off
+  let digits := quote $ List.toArray $ digitsToStxList str off
   `(ofRadix $radix $digits)
 
 def expandRadixLit (stx : Syntax) (str : String) : MacroM Syntax :=
@@ -57,17 +57,17 @@ def expandRadixLit (stx : Syntax) (str : String) : MacroM Syntax :=
       if c == '0' then 
         let c := str.get 1
         if c == 'x' || c == 'X' then do
-          digitsToStx (<- `((16))) digitToStx str 2
+          digitsToStx (<- `((16))) str 2
         else if c == 'b' || c == 'B' then do
-          digitsToStx (<- `((2))) digitToStx str 2
+          digitsToStx (<- `((2))) str 2
         else if c == 'o' || c == 'O' then do
-          digitsToStx (<- `((8))) digitToStx str 2
+          digitsToStx (<- `((8))) str 2
         else if c.isDigit then do
-          digitsToStx (<- `((10))) digitToStx str 0
+          digitsToStx (<- `((10))) str 0
         else 
           Macro.throwErrorAt stx "invalid numLit prefix"
       else if c.isDigit then do
-        digitsToStx (<- `((10))) digitToStx str 0
+        digitsToStx (<- `((10))) str 0
       else 
         Macro.throwErrorAt stx "invalid numLit"
 
