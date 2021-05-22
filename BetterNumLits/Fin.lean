@@ -1,6 +1,5 @@
 import BetterNumLits.Numerals
 import BetterNumLits.Notation
-import BetterNumLits.OfRadix
 import BetterNumLits.Nat
 
 abbrev Fin2 := Fin (2)
